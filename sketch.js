@@ -111,6 +111,7 @@ let objectCoolDownLower, objectCoolDownUpper;
 
 // our recording object
 let myRec;
+let globalMostRecentWord = "";
 
 let collisionLines = false;
 
@@ -239,9 +240,9 @@ function setup() {
 
 	furret = new MainCharacter(furretImageArray, furretStartX, furretStartY);
 
-	menuBarArray.push(new MenuBar("Easy", 400, 90, 480, 100, 254, 246, 137, bar1, 440, 100, 180, 90, 605, 155, 1, 4, 100, 280, 0.9, -65));
-	menuBarArray.push(new MenuBar("Medium", 400, 220, 480, 100, 244, 237, 68, bar2, 440, 230, 175, 90, 575, 285, 2, 6, 80, 280, 1, -55));
-	menuBarArray.push(new MenuBar("Hard", 400, 350, 480, 100, 233, 190, 62, bar3, 440, 360, 175, 90, 605, 415, 3, 10, 50, 180, 1.2, -45));
+	menuBarArray.push(new MenuBar("Easy", 400, 90, 480, 100, 254, 246, 137, bar1, 440, 100, 180, 90, 605, 155, 1, 4, 100, 280, 0.9, -65, "easy"));
+	menuBarArray.push(new MenuBar("Medium", 400, 220, 480, 100, 244, 237, 68, bar2, 440, 230, 175, 90, 575, 285, 2, 6, 80, 280, 1, -55, "medium"));
+	menuBarArray.push(new MenuBar("Hard", 400, 350, 480, 100, 233, 190, 62, bar3, 440, 360, 175, 90, 605, 415, 3, 10, 50, 180, 1.2, -45, "hard"));
 
 	gameReset();
 	//frameRate(40);
@@ -264,6 +265,7 @@ function draw() {
 		furretStuff();
 
 		reportData();
+		gameRestartButton();
 
 		if (recyclableObjectsCollected == numberOfRecyclableObjectsToWin) {
 			winGameBoolean = true;
@@ -483,7 +485,7 @@ class Objects {
 }
 
 class MenuBar {
-	constructor(text, posX, posY, sizeX, sizeY, r, g, b, menuImage, menuPosX, menuPosY, menuSizeX, menuSizeY, textX, textY, level, parallaxSpeed, objectCoolDownLower, objectCoolDownUpper, gravity, lift) {
+	constructor(text, posX, posY, sizeX, sizeY, r, g, b, menuImage, menuPosX, menuPosY, menuSizeX, menuSizeY, textX, textY, level, parallaxSpeed, objectCoolDownLower, objectCoolDownUpper, gravity, lift, voiceText) {
 		this.text = text;
 		this.posX = posX;
 		this.posY = posY;
@@ -505,6 +507,7 @@ class MenuBar {
 		this.objectCoolDownUpper = objectCoolDownUpper;
 		this.gravity = gravity;
 		this.lift = lift;
+		this.voiceText = voiceText;
 	}
 
 	display() {
@@ -529,7 +532,7 @@ class MenuBar {
 	}
 
 	checkPressed() {
-		if (mouseIsPressed && mouseX >= this.posX && mouseX <= this.posX + this.sizeX && mouseY >= this.posY && mouseY <= this.posY + this.sizeY) {
+		if (startScreenBoolean == true && globalMostRecentWord == this.voiceText || mouseIsPressed && mouseX >= this.posX && mouseX <= this.posX + this.sizeX && mouseY >= this.posY && mouseY <= this.posY + this.sizeY) {
 			level = this.level;
 			parallaxSpeed = this.parallaxSpeed;
 			furret.gravity = this.gravity;
@@ -769,6 +772,34 @@ function loseScreenStuff() {
 	}
 }
 
+function gameRestartButton() {
+	// restart button
+	if (mouseX >= 1125 && mouseX <= 1265 && mouseY >= 535 && mouseY <= 580) {
+		stroke(255);
+		fill(233, 190, 62);
+		rect(1125, 535, 140, 45, 10);
+		textSize(28);
+		fill(255);
+		noStroke();
+		text("Restart", 1148, 568);
+	}
+
+	else {
+		stroke(255);
+		fill(0);
+		rect(1125, 535, 140, 45, 10);
+		textSize(28);
+		fill(255);
+		noStroke();
+		text("Restart", 1148, 568);
+	}
+
+	if (mouseIsPressed && mouseX >= 1125 && mouseX <= 1265 && mouseY >= 535 && mouseY <= 580) {
+		clickSound.play();
+		gameReset();
+	}
+}
+
 function reportData() {
 	// stroke(0);
 	// strokeWeight(1);
@@ -793,12 +824,21 @@ function parseResult() {
 	let wordArray = myRec.resultString.split(' ');
 	let mostRecentWord = wordArray[ wordArray.length - 1];
 
+	globalMostRecentWord = mostRecentWord;
+
 	// evaluate word
 	// console.log(mostRecentWord);
 	// if (mostRecentWord == "jump" && startScreenBoolean == false && furret.jumping == false) {
 	// 	furret.jump();
 	// 	furret.jumping = true;
 	// }
+
+	if (startScreenBoolean == false) {
+		if (mostRecentWord == "restart") {
+			clickSound.play();
+			gameReset();
+		}
+	}
 }
 
 function gameReset() {
@@ -810,10 +850,11 @@ function gameReset() {
 	winGameBoolean = false;
 	loseGameBoolean = false;
 	furret.jumping = false;
-	furret.currentImageIndex = 0;
-	furretImageDelayCounter = 0;
-	parallax1X = 0;
-	parallax2X = 1280;
+	// furret.currentImageIndex = 0;
+	// furretImageDelayCounter = 0;
+	// console.log(furret.currentImageIndex)
+	// parallax1X = 0;
+	// parallax2X = 1280;
 	parallaxSpeed = 4;
 	objectArray = [];
 
