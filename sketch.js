@@ -572,8 +572,10 @@ class MenuBar {
 
 			globalFirstOrSecondJumpForceResetThreshold = this.firstOrSecondJumpForceResetThreshold;
 
-			subtitles = "Speech: " + this.text;
-			subtitlesCoolDown = subtitlesCoolDownValue;
+			if (globalMostRecentWord == this.voiceText) {
+				subtitles = "Speech: " + this.text;
+				subtitlesCoolDown = subtitlesCoolDownValue;
+			}
 		}
 	}
 }
