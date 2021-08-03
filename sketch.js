@@ -122,6 +122,11 @@ let collisionLines = false;
 
 let menuBarArray = [];
 
+// subtitles variables
+let subtitles = "(music playing)";
+let subtitlesCoolDownValue = 120;
+let subtitlesCoolDown = subtitlesCoolDownValue;
+
 function preload() {
 	heartImage = loadImage("images/heart.png");
 
@@ -223,6 +228,7 @@ function preload() {
 
 function setup() {
 	theCanvas = createCanvas(1280, 595);
+	theCanvas.parent('sketch-holder');
 	//repositionCanvas();
 
 	// create speech to text object
@@ -298,14 +304,14 @@ function draw() {
 		loseScreenStuff();
 		parseResult();
 	}
+
+	subtitlesStuff();
 }
 
 function keyPressed() {
-	if (key == ' ') {
-		if (startScreenBoolean == false && furret.jumping == false && keyIsDown(32)) {
-			furret.jumping = true;
-			furret.jump();
-		}
+	if (startScreenBoolean == false && furret.jumping == false && keyIsDown(74)) {
+		furret.jumping = true;
+		furret.jump();
 	}
 }
 
@@ -565,6 +571,9 @@ class MenuBar {
 			startScreenBoolean = false;
 
 			globalFirstOrSecondJumpForceResetThreshold = this.firstOrSecondJumpForceResetThreshold;
+
+			subtitles = "Speech: " + this.text;
+			subtitlesCoolDown = subtitlesCoolDownValue;
 		}
 	}
 }
@@ -664,8 +673,8 @@ function winScreenStuff() {
 	imageMode(CENTER);
 
 	// tint(random(120, 255), random(120, 255), random(120, 255));
-	image(dancingFurretImage, random(width), random(height), 40, 40 * 1.41356382979);
-	noTint();
+	// image(dancingFurretImage, random(width), random(height), 40, 40 * 1.41356382979);
+	// noTint();
 
 	// image(happyFurretImageArray[happyFurretCounter], width / 2, height / 2);
 	// happyFurretCooldown++;
@@ -683,7 +692,7 @@ function winScreenStuff() {
 	furretTinCounter++;
 	image(furretHeadImage, 1015, 183, 240, 240 * 1.19854014599);
 
-	image(winMessageArray[happyFurretCounter], 450, 105, 800, 800 * 0.24793388429);
+	image(winMessageArray[happyFurretCounter], 450, 130, 800, 800 * 0.24793388429);
 	happyFurretCooldown++;
 
 	if (happyFurretCooldown % 8 == 0 && happyFurretCounter < winMessageArray.length - 1) {
@@ -694,40 +703,47 @@ function winScreenStuff() {
 		winMessageCoolDown++;
 
 		if (winMessageCoolDown < 150) {
-			image(winMessageArray[winMessageArray.length - 1], 450, 105, 800, 800 * 0.24793388429);
+			image(winMessageArray[winMessageArray.length - 1], 450, 130, 800, 800 * 0.24793388429);
 		}
 
 		else if (winMessageCoolDown % 150 <= 35) {
-			image(winMessageArray[0], 450, 105, 800, 800 * 0.24793388429);
+			image(winMessageArray[0], 450, 130, 800, 800 * 0.24793388429);
 		}
 
 		else {
-			image(winMessageArray[winMessageArray.length - 1], 450, 105, 800, 800 * 0.24793388429);
+			image(winMessageArray[winMessageArray.length - 1], 450, 130, 800, 800 * 0.24793388429);
 		}
 	}
 
+	fill(0);
+	rect(0, 0, 10, height);
+	rect(0, 0, width, 10);
+	rect(width - 10, 0, 10, height);
+	rect(0, height - 10, width, 10);
+
+
 	// restart button
-	if (mouseX >= 20 && mouseX <= 160 && mouseY >= 535 && mouseY <= 580) {
+	if (mouseX >= 30 && mouseX <= 170 && mouseY >= 525 && mouseY <= 570) {
 		stroke(255);
 		fill(233, 190, 62);
-		rect(20, 535, 140, 45, 10);
+		rect(30, 525, 140, 45, 10);
 		textSize(28);
 		fill(255);
 		noStroke();
-		text("Restart", 43, 568);
+		text("Restart", 53, 558);
 	}
 
 	else {
 		stroke(255);
 		fill(0);
-		rect(20, 535, 140, 45, 10);
+		rect(30, 525, 140, 45, 10);
 		textSize(28);
 		fill(255);
 		noStroke();
-		text("Restart", 43, 568);
+		text("Restart", 53, 558);
 	}
 
-	if (mouseIsPressed && mouseX >= 20 && mouseX <= 160 && mouseY >= 535 && mouseY <= 580) {
+	if (mouseIsPressed && mouseX >= 30 && mouseX <= 170 && mouseY >= 525 && mouseY <= 570) {
 		clickSound.play();
 		gameReset();
 	}
@@ -834,6 +850,26 @@ function reportData() {
  	text ("# of Recyclable Items Collected: " + recyclableObjectsCollected, 925, 86);
 }
 
+function subtitlesStuff() {
+	textAlign(CENTER);
+	textSize(26);
+	noStroke();
+	fill(255);
+	textStyle(ITALIC);
+	text(subtitles, width / 2, 565);
+	textAlign(LEFT);
+	textStyle(NORMAL);
+
+	if (subtitles != "(music playing)") {
+		subtitlesCoolDown--;
+
+		if (subtitlesCoolDown == 0) {
+			subtitles = "(music playing)";
+			subtitlesCoolDown = subtitlesCoolDownValue;
+		}
+	}
+}
+
 // called every time a word/phrase is detected
 function parseResult() {
     // myRec.resultString is the current result
@@ -850,6 +886,8 @@ function parseResult() {
 		if (startScreenBoolean == false && winGameBoolean == false && loseGameBoolean == false) {
 			if (mostRecentWord == "jump" && firstOrSecondJump == "first") {
 				if (furret.jumping == false && mostRecentWord == "jump") {
+					subtitles = "Speech: Jump";
+					subtitlesCoolDown = subtitlesCoolDownValue;
 					furret.jumping = true;
 					furret.jump();
 				}
@@ -881,6 +919,8 @@ function parseResult() {
 
 		if (startScreenBoolean == false) {
 			if (mostRecentWord == "restart") {
+				subtitles = "Speech: " + "Restart";
+				subtitlesCoolDown = subtitlesCoolDownValue;
 				clickSound.play();
 				winMusic.stop();
 				loseMusic.stop();
@@ -938,6 +978,9 @@ function gameReset() {
 	firstOrSecondJumpForceResetCounter = 0;
 	mostRecentWord = "";
 	myRec.resultString = "";
+
+	// subtitles = "(music playing)";
+	// subtitlesCoolDown = subtitlesCoolDownValue;
 
 	for (let i = 0; i < soundsArray.length; i++) {
 		soundsArray[i].stop();

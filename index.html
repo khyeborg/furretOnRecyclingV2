@@ -38,25 +38,75 @@
         text-align: center;
         font-size: 32px;
       }
+
+      ol {
+        margin-top: 0px;
+      }
+
+      #big_div {
+        margin: 0px 150px;
+      }
+
+      #how_to_play_div {
+        margin-top: 60px;
+        margin-bottom: 500px;
+        font-size: 20px;
+      }
+
+      #green_stuff {
+        font-weight: bold;
+        color: green;
+      }
+
+      #orange_stuff {
+        font-weight: bold;
+        color: orange;
+      }
+
+      #red_stuff {
+        font-weight: bold;
+        color: red;
+      }
+
+      #blue_stuff {
+        font-weight: bold;
+        color: blue;
+      }
     </style>
   </head>
   <body>
     <h1>Furret on Recycling</h1>
 
-<!--     <div id="controls">
-    <form>
-      <table>
-        <tbody>
-     
-          <tr>
-            <td>Charmander size:</td>
-            <td><input type="range" id="range1" min="50" max="200" step="1" value="90" oninput="updateRange(this);" onchange="updateRange(this);"></td>
-          </tr>
- 
-         </tbody>
-      </table>
-    </form>
-    </div> -->
+    <div id="big_div">
+      <div id="sketch-holder">
+          <!-- Our sketch will go here! -->
+      </div>
+
+      <div id="how_to_play_div">
+        <strong>GAMEPLAY</strong>
+        <br>
+        Collect recyclable items and jump to avoid non-recyclable ones!
+        <br><br><br>
+
+        <strong>HOW TO PLAY (KEYBOARD CONTROLS)</strong>
+
+        <ol>
+          <li>Click to select a difficulty level - <strong id="blue_stuff">EASY</strong>, <strong id="blue_stuff">MEDIUM</strong>, or <strong id="blue_stuff">HARD</strong>.</li>
+          <li>Press the <strong id="blue_stuff">J</strong> key to jump and avoid non-recyclable items.</li>
+          <li>Click the <strong id="blue_stuff">RESTART</strong> button to restart the game at any point.</li>
+        </ol>
+
+        <br>
+
+        <strong>HOW TO PLAY (VOICE CONTROLS)</strong>
+
+        <ol>
+          <li>Say <strong id="blue_stuff">EASY</strong>, <strong id="blue_stuff">MEDIUM</strong id="blue_stuff">, or <strong id="blue_stuff">HARD</strong> to select a difficulty level.</li>
+          <li>Say <strong id="blue_stuff">JUMP</strong> to jump and avoid non-recyclable items.</li>
+          <li>Say <strong id="blue_stuff">RESTART</strong> to restart the game at any point.</li>
+        </ol>
+      </div>
+    </div>
 
 
   </body>
