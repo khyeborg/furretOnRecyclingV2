@@ -675,7 +675,7 @@ function winScreenStuff() {
 	imageMode(CENTER);
 
 	// tint(random(120, 255), random(120, 255), random(120, 255));
-	// image(dancingFurretImage, random(width), random(height), 40, 40 * 1.41356382979);
+	image(dancingFurretImage, random(width), random(height), 40, 40 * 1.41356382979);
 	// noTint();
 
 	// image(happyFurretImageArray[happyFurretCounter], width / 2, height / 2);
@@ -722,7 +722,6 @@ function winScreenStuff() {
 	rect(0, 0, width, 10);
 	rect(width - 10, 0, 10, height);
 	rect(0, height - 10, width, 10);
-
 
 	// restart button
 	if (mouseX >= 30 && mouseX <= 170 && mouseY >= 525 && mouseY <= 570) {
@@ -853,10 +852,17 @@ function reportData() {
 }
 
 function subtitlesStuff() {
+	if (winGameBoolean == true) {
+		fill(0);
+	}
+
+	else {
+		fill(255);
+	}
+
 	textAlign(CENTER);
 	textSize(26);
 	noStroke();
-	fill(255);
 	textStyle(ITALIC);
 	text(subtitles, width / 2, 565);
 	textAlign(LEFT);
