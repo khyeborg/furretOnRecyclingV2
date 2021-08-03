@@ -80,7 +80,7 @@ let tearCounter = 90;
 let tearY = 275;
 
 let parallaxImage1, parallaxImage2;
-let parallax1X = 0, parallax2X = 1280;
+let parallax1X = 0, parallax2X = 1024;
 let parallaxSpeed = 4;
 
 let furretImageArray = [];
@@ -604,12 +604,12 @@ function parallaxBackground() {
 	parallax1X -= parallaxSpeed;
 	parallax2X -= parallaxSpeed;
 
-	if (parallax1X <= -1280) {
-		parallax1X = 1280;
+	if (parallax1X <= -1024) {
+		parallax1X = 1024;
 	}
 
-	if (parallax2X <= -1280) {
-		parallax2X = 1280;
+	if (parallax2X <= -1024) {
+		parallax2X = 1024;
 	}
 }
 
@@ -967,7 +967,7 @@ function gameReset() {
 	// furretImageDelayCounter = 0;
 	// console.log(furret.currentImageIndex)
 	// parallax1X = 0;
-	// parallax2X = 1280;
+	// parallax2X = 1024;
 	parallaxSpeed = 4;
 	objectArray = [];
 
