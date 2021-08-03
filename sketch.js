@@ -960,7 +960,7 @@ function gameReset() {
 	recyclableObjectsCollected = 0;
 	numberOfRecyclableObjectsToWin = 10;
 	tearArray = [];
-	winGameBoolean = true;
+	winGameBoolean = false;
 	loseGameBoolean = false;
 	furret.jumping = false;
 	// furret.currentImageIndex = 0;
